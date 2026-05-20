@@ -1,0 +1,78 @@
+// DealNote AI - schema do banco (PostgreSQL via Prisma)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+
+  meetings Meeting[]
+  folders  Folder[]
+}
+
+model Meeting {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  title      String
+  clientName String?
+
+  // "upload" = arquivo enviado | "recording" = gravado pelo navegador
+  source String @default("upload")
+
+  // created -> transcribing -> analyzing -> ready | error
+  status String @default("created")
+
+  audioPath        String?
+  audioMimeType    String?
+  transcript       String?
+  durationSeconds  Int?
+  consentConfirmed Boolean @default(false)
+  errorMessage     String?
+
+  folderId String?
+  folder   Folder? @relation(fields: [folderId], references: [id], onDelete: SetNull)
+
+  report Report?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Report {
+  id        String  @id @default(cuid())
+  meetingId String  @unique
+  meeting   Meeting @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+
+  // Triagem (passada 1): tipo de call, setor, o que esta sendo vendido, etc.
+  context Json
+
+  // Relatorio completo (passada 2): resumo, objecoes, follow-up, coaching, etc.
+  content Json
+
+  // Extraido para facilitar filtros/dashboard sem abrir o JSON inteiro
+  closingScore Int?
+
+  createdAt DateTime @default(now())
+}
+
+model Folder {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  createdAt DateTime @default(now())
+
+  meetings Meeting[]
+}

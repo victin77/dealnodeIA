@@ -1,0 +1,156 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --app-bg: #ececec;
+}
+
+/* Tema escuro: inverte a rampa de cinzas e ajusta os acentos.
+   Como o Tailwind v4 usa variaveis CSS nas cores, sobrescrever aqui
+   troca o app inteiro sem mexer nos componentes. */
+.dark {
+  --app-bg: #0a0a0a;
+
+  --color-white: #18181b;
+  --color-neutral-50: #1c1c20;
+  --color-neutral-100: #27272a;
+  --color-neutral-200: #34343a;
+  --color-neutral-300: #52525b;
+  --color-neutral-400: #8b8b94;
+  --color-neutral-500: #a1a1aa;
+  --color-neutral-600: #c9c9d0;
+  --color-neutral-700: #dddde1;
+  --color-neutral-800: #e9e9ec;
+  --color-neutral-900: #f5f5f7;
+
+  --color-emerald-50: #0c2c20;
+  --color-emerald-600: #34d399;
+  --color-emerald-700: #6ee7b7;
+  --color-amber-50: #2f2408;
+  --color-amber-600: #fbbf24;
+  --color-amber-700: #fcd34d;
+  --color-rose-50: #300e18;
+  --color-rose-600: #fb7185;
+  --color-rose-700: #fda4af;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--app-bg);
+  color: var(--color-neutral-900);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-neutral-300);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-neutral-400);
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* Logo (estrela). A cor vem do background-color — recolore via classe bg-*. */
+.logo-mark {
+  -webkit-mask: url(/logo-mask.png) center / contain no-repeat;
+  mask: url(/logo-mask.png) center / contain no-repeat;
+}
+
+/* Animação da troca de tema (revelação circular via View Transitions) */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-old(root) {
+  z-index: 1;
+}
+::view-transition-new(root) {
+  z-index: 999;
+}
+
+/* Entrada do modal de confirmação */
+@keyframes dn-overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes dn-dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.dn-overlay-in {
+  animation: dn-overlay-in 0.15s ease-out;
+}
+.dn-dialog-in {
+  animation: dn-dialog-in 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Transição ao trocar de aba */
+@keyframes dn-page-in {
+  from {
+    opacity: 0;
+    transform: translateY(9px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.dn-page-in {
+  animation: dn-page-in 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* Aceno: gira o braço em torno do ombro (80, 168 no viewBox) */
+@keyframes dn-wave {
+  0%,
+  55%,
+  100% {
+    transform: rotate(0deg);
+  }
+  13%,
+  39% {
+    transform: rotate(-13deg);
+  }
+  26% {
+    transform: rotate(12deg);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .dn-wave {
+    transform-box: view-box;
+    transform-origin: 80px 168px;
+    animation: dn-wave 2.4s ease-in-out infinite;
+  }
+}

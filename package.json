@@ -1,0 +1,13 @@
+{
+  "name": "dealnote-ai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "DealNote AI - copiloto de fechamento de vendas (deploy de serviço único)",
+  "engines": {
+    "node": "22.x"
+  },
+  "scripts": {
+    "build": "cd web && npm install --include=dev && npm run build && cd ../server && npm install --include=dev && npm run build",
+    "start": "cd server && npm run start:prod"
+  }
+}
