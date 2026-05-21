@@ -146,3 +146,10 @@ export const IconEyeOff = (p: IconProps) => (
     <path d="M4 4 20 20" />
   </svg>
 );
+
+export const IconDownload = (p: IconProps) => (
+  <svg {...base(p)}>
+    <path d="M12 4v11M7.5 10.5 12 15l4.5-4.5" />
+    <path d="M5 19h14" />
+  </svg>
+);

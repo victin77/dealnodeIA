@@ -175,9 +175,9 @@ function Tile({
   color?: string;
 }) {
   return (
-    <Card className="p-5">
+    <Card className="p-4 sm:p-5">
       <p
-        className={`text-4xl font-bold tracking-tight ${color ?? "text-neutral-900"}`}
+        className={`text-3xl font-bold tracking-tight sm:text-4xl ${color ?? "text-neutral-900"}`}
       >
         {value}
       </p>
