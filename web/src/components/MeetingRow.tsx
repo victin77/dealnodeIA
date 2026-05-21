@@ -20,7 +20,7 @@ export function MeetingRow({ meeting: m, onDelete }: Props) {
       tabIndex={0}
       onClick={() => navigate(`/reuniao/${m.id}`)}
       onKeyDown={(e) => e.key === "Enter" && navigate(`/reuniao/${m.id}`)}
-      className="flex cursor-pointer items-center gap-3.5 rounded-2xl px-3 py-2.5 transition hover:bg-neutral-50"
+      className="flex min-w-0 cursor-pointer items-center gap-3 rounded-2xl px-3 py-2.5 transition hover:bg-neutral-50"
     >
       <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-neutral-100 text-neutral-700">
         <Icon className="h-5 w-5" />
