@@ -27,7 +27,7 @@ export function StatusBadge({ status }: { status: MeetingStatus }) {
   const cfg = MAP[status] ?? MAP.created;
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${cfg.className}`}
+      className={`inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-medium ${cfg.className}`}
     >
       {cfg.pulse && (
         <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-current" />
