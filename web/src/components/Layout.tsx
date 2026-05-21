@@ -174,7 +174,7 @@ export function Layout({ children }: { children: ReactNode }) {
 
         {/* Conteúdo — anima a cada troca de aba.
            No modo "abas", reserva espaço inferior para a barra fixa. */}
-        <main className="flex-1 overflow-y-auto">
+        <main className="flex-1 overflow-x-hidden overflow-y-auto">
           <div
             key={location.pathname}
             className={`dn-page-in md:pb-0 ${
