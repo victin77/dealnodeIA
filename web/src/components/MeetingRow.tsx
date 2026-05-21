@@ -54,9 +54,10 @@ export function MeetingRow({ meeting: m, onDelete }: Props) {
             onDelete(m.id);
           }}
           title="Excluir"
-          className="rounded-lg p-1.5 text-neutral-300 transition hover:bg-neutral-100 hover:text-neutral-700"
+          aria-label="Excluir reunião"
+          className="grid shrink-0 place-items-center rounded-lg p-2 text-neutral-400 transition hover:bg-neutral-100 hover:text-neutral-700"
         >
-          <IconTrash className="h-4 w-4" />
+          <IconTrash className="h-[18px] w-[18px]" />
         </button>
       )}
     </div>
