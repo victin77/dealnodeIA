@@ -101,9 +101,9 @@ export function DashboardPage() {
             />
           </div>
 
-          <div className="grid gap-5 lg:grid-cols-5">
+          <div className="grid grid-cols-1 gap-5 lg:grid-cols-5">
             {/* Reuniões recentes */}
-            <Card className="p-5 lg:col-span-3">
+            <Card className="min-w-0 p-5 lg:col-span-3">
               <div className="mb-3 flex items-center justify-between px-1">
                 <h2 className="font-bold text-neutral-900">
                   Reuniões recentes
@@ -138,7 +138,7 @@ export function DashboardPage() {
             </Card>
 
             {/* Evolução do score */}
-            <Card className="p-5 lg:col-span-2">
+            <Card className="min-w-0 p-5 lg:col-span-2">
               <h2 className="px-1 font-bold text-neutral-900">
                 Evolução do score
               </h2>
