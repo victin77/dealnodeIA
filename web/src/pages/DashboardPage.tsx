@@ -6,7 +6,6 @@ import { useAuth } from "../context/AuthContext";
 import { Card, PageContainer, Spinner } from "../components/ui";
 import { MeetingRow } from "../components/MeetingRow";
 import { LineChart } from "../components/LineChart";
-import { WavingPerson } from "../components/Illustration";
 import { IconPlus } from "../components/icons";
 import { firstName, scoreColor } from "../lib/format";
 
@@ -70,7 +69,11 @@ export function DashboardPage() {
             Nova reunião
           </Link>
         </div>
-        <WavingPerson className="hidden h-40 w-40 shrink-0 sm:block" />
+        <img
+          src="/mascote.png"
+          alt="Mascote do DealNote AI"
+          className="hidden h-40 w-40 shrink-0 object-contain sm:block"
+        />
       </Card>
 
       {loading ? (
