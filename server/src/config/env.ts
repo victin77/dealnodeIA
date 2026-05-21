@@ -83,6 +83,11 @@ export const env = {
   jwtSecret: required("JWT_SECRET", "dev-secret-troque-isto"),
   clientUrl: required("CLIENT_URL", "http://localhost:5173"),
 
+  // ID do cliente OAuth do Google (não é secreto — pode ficar no código).
+  googleClientId:
+    process.env.GOOGLE_CLIENT_ID ??
+    "793973236663-dp8o9q0m8jvdeqv76jkm5t2ge03vf26c.apps.googleusercontent.com",
+
   transcription: transcriptionConfig(resolveProvider("TRANSCRIPTION_PROVIDER")),
   analysis: analysisConfig(resolveProvider("ANALYSIS_PROVIDER")),
 };
