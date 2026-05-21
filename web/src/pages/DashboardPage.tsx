@@ -72,7 +72,7 @@ export function DashboardPage() {
         <img
           src="/mascote.png"
           alt="Mascote do DealNote AI"
-          className="hidden h-40 w-40 shrink-0 object-contain sm:block"
+          className="dn-mascot hidden h-48 w-48 shrink-0 object-contain sm:block"
         />
       </Card>
 

@@ -132,25 +132,26 @@ body {
   animation: dn-page-in 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
-/* Aceno: gira o braço em torno do ombro (80, 168 no viewBox) */
-@keyframes dn-wave {
+/* Aceno do mascote: balança o corpo todo girando a partir dos pés.
+   O braço levantado fica longe do pivô, então descreve o maior arco
+   e lê como um aceno — sem precisar recortar o braço da imagem. */
+@keyframes dn-mascot-wave {
   0%,
-  55%,
+  60%,
   100% {
     transform: rotate(0deg);
   }
-  13%,
-  39% {
-    transform: rotate(-13deg);
+  15%,
+  45% {
+    transform: rotate(-6deg);
   }
-  26% {
-    transform: rotate(12deg);
+  30% {
+    transform: rotate(6deg);
   }
 }
 @media (prefers-reduced-motion: no-preference) {
-  .dn-wave {
-    transform-box: view-box;
-    transform-origin: 80px 168px;
-    animation: dn-wave 2.4s ease-in-out infinite;
+  .dn-mascot {
+    transform-origin: 50% 100%;
+    animation: dn-mascot-wave 3s ease-in-out infinite;
   }
 }
