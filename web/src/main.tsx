@@ -6,14 +6,17 @@ import "./lib/pwa"; // registra o listener de instalacao do PWA cedo
 import App from "./App.tsx";
 import { AuthProvider } from "./context/AuthContext.tsx";
 import { ThemeProvider } from "./context/ThemeContext.tsx";
+import { NavModeProvider } from "./context/NavModeContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <ThemeProvider>
-        <AuthProvider>
-          <App />
-        </AuthProvider>
+        <NavModeProvider>
+          <AuthProvider>
+            <App />
+          </AuthProvider>
+        </NavModeProvider>
       </ThemeProvider>
     </BrowserRouter>
   </StrictMode>
