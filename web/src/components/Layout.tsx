@@ -4,6 +4,7 @@ import type { MouseEvent, ReactNode } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
 import { useNavMode } from "../context/NavModeContext";
+import { Logo } from "./Logo";
 import {
   IconChart,
   IconClock,
@@ -109,11 +110,7 @@ export function Layout({ children }: { children: ReactNode }) {
     <div className="flex h-dvh">
       {/* === Sidebar — só no desktop (md+) === */}
       <aside className="my-3 ml-3 hidden w-[72px] shrink-0 flex-col items-center rounded-3xl bg-[#161616] py-5 md:flex">
-        <span
-          className="logo-mark mb-7 block h-10 w-10 bg-[#fafafa]"
-          role="img"
-          aria-label="DealNote AI"
-        />
+        <Logo className="mb-7 h-11 w-auto" />
 
         <nav className="flex flex-1 flex-col gap-2">
           {NAV.map(({ to, label, Icon }) => (
@@ -154,11 +151,7 @@ export function Layout({ children }: { children: ReactNode }) {
               </TopButton>
             )}
             <div className="flex items-center gap-2 px-2">
-              <span
-                className="logo-mark block h-7 w-7 bg-[#fafafa]"
-                role="img"
-                aria-label="DealNote AI"
-              />
+              <Logo className="h-8 w-auto" />
               <span className="font-semibold text-[#fafafa]">DealNote AI</span>
             </div>
           </div>
@@ -235,11 +228,7 @@ export function Layout({ children }: { children: ReactNode }) {
           >
             <div className="flex items-center justify-between px-5 pb-2 pt-[calc(1rem_+_env(safe-area-inset-top))]">
               <div className="flex items-center gap-2">
-                <span
-                  className="logo-mark block h-7 w-7 bg-[#fafafa]"
-                  role="img"
-                  aria-label="DealNote AI"
-                />
+                <Logo className="h-8 w-auto" />
                 <span className="font-semibold text-[#fafafa]">
                   DealNote AI
                 </span>

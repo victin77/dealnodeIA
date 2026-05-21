@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { GoogleButton } from "../components/GoogleButton";
+import { Logo } from "../components/Logo";
 import { PasswordInput } from "../components/ui";
 
 export function LoginPage() {
@@ -49,11 +50,7 @@ export function LoginPage() {
       {/* Painel preto de apresentação */}
       <div className="hidden w-1/2 flex-col justify-between rounded-3xl bg-neutral-900 p-12 lg:flex">
         <div className="flex items-center gap-2.5">
-          <span
-            className="logo-mark block h-9 w-9 bg-white"
-            role="img"
-            aria-label="DealNote AI"
-          />
+          <Logo className="h-10 w-auto" />
           <span className="font-semibold text-white">DealNote AI</span>
         </div>
         <div>
@@ -81,11 +78,7 @@ export function LoginPage() {
       <div className="flex w-full items-center justify-center p-6 lg:w-1/2">
         <div className="w-full max-w-sm">
           <div className="mb-6 flex items-center gap-2.5 lg:hidden">
-            <span
-              className="logo-mark block h-8 w-8 bg-neutral-900"
-              role="img"
-              aria-label="DealNote AI"
-            />
+            <Logo className="h-9 w-auto" />
             <span className="font-semibold text-neutral-900">DealNote AI</span>
           </div>
 
