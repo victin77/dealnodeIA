@@ -4,6 +4,8 @@ export interface User {
   id: string;
   name: string;
   email: string;
+  // false em contas criadas via Google que ainda nao definiram uma senha.
+  hasPassword: boolean;
 }
 
 export type MeetingStatus =

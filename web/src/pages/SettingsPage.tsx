@@ -72,7 +72,14 @@ export function SettingsPage() {
 
         {/* Senha */}
         <Card className="p-6 lg:col-span-2">
-          <h2 className="mb-4 font-bold text-neutral-900">Trocar senha</h2>
+          <h2 className="mb-1 font-bold text-neutral-900">
+            {user?.hasPassword ? "Trocar senha" : "Criar senha"}
+          </h2>
+          <p className="mb-4 text-sm text-neutral-500">
+            {user?.hasPassword
+              ? "Atualize a senha de acesso à sua conta."
+              : "Sua conta entra com o Google. Crie uma senha para também poder entrar com e-mail e senha."}
+          </p>
           <ChangePasswordForm />
         </Card>
       </div>
@@ -90,6 +97,9 @@ function ProviderRow({ label, value }: { label: string; value: string }) {
 }
 
 function ChangePasswordForm() {
+  const { user, changePassword } = useAuth();
+  const hasPassword = user?.hasPassword ?? false;
+
   const [current, setCurrent] = useState("");
   const [next, setNext] = useState("");
   const [confirm, setConfirm] = useState("");
@@ -100,39 +110,56 @@ function ChangePasswordForm() {
     e.preventDefault();
     setMsg(null);
     if (next.length < 6) {
-      setMsg({ ok: false, text: "A nova senha precisa ter ao menos 6 caracteres." });
+      setMsg({ ok: false, text: "A senha precisa ter ao menos 6 caracteres." });
       return;
     }
     if (next !== confirm) {
-      setMsg({ ok: false, text: "A confirmação não confere com a nova senha." });
+      setMsg({ ok: false, text: "A confirmação não confere com a senha." });
       return;
     }
     setLoading(true);
     try {
-      await api.changePassword(current, next);
-      setMsg({ ok: true, text: "Senha alterada com sucesso." });
+      await changePassword(current, next);
+      setMsg({
+        ok: true,
+        text: hasPassword
+          ? "Senha alterada com sucesso."
+          : "Senha criada! Agora você também pode entrar com e-mail e senha.",
+      });
       setCurrent("");
       setNext("");
       setConfirm("");
     } catch (err) {
       setMsg({
         ok: false,
-        text: err instanceof Error ? err.message : "Falha ao trocar a senha.",
+        text: err instanceof Error ? err.message : "Falha ao salvar a senha.",
       });
     } finally {
       setLoading(false);
     }
   }
 
+  // 3 colunas quando ha campo de senha atual; 2 colunas no modo "criar senha".
+  const span = hasPassword ? "sm:col-span-3" : "sm:col-span-2";
+
   return (
-    <form onSubmit={handleSubmit} className="grid gap-3 sm:grid-cols-3">
-      <PwInput label="Senha atual" value={current} onChange={setCurrent} />
+    <form
+      onSubmit={handleSubmit}
+      className={`grid gap-3 ${hasPassword ? "sm:grid-cols-3" : "sm:grid-cols-2"}`}
+    >
+      {hasPassword && (
+        <PwInput label="Senha atual" value={current} onChange={setCurrent} />
+      )}
       <PwInput label="Nova senha" value={next} onChange={setNext} />
-      <PwInput label="Confirmar nova senha" value={confirm} onChange={setConfirm} />
+      <PwInput
+        label="Confirmar nova senha"
+        value={confirm}
+        onChange={setConfirm}
+      />
 
       {msg && (
         <p
-          className={`rounded-xl px-3 py-2 text-sm sm:col-span-3 ${
+          className={`rounded-xl px-3 py-2 text-sm ${span} ${
             msg.ok
               ? "bg-neutral-900 text-white"
               : "bg-neutral-100 text-neutral-700"
@@ -142,9 +169,13 @@ function ChangePasswordForm() {
         </p>
       )}
 
-      <div className="sm:col-span-3">
+      <div className={span}>
         <Button type="submit" disabled={loading}>
-          {loading ? "Salvando…" : "Salvar nova senha"}
+          {loading
+            ? "Salvando…"
+            : hasPassword
+              ? "Salvar nova senha"
+              : "Criar senha"}
         </Button>
       </div>
     </form>

@@ -14,6 +14,7 @@ interface AuthState {
   login: (email: string, password: string) => Promise<void>;
   loginWithGoogle: (credential: string) => Promise<void>;
   register: (name: string, email: string, password: string) => Promise<void>;
+  changePassword: (currentPassword: string, newPassword: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -54,6 +55,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(res.user);
   }
 
+  // Troca ou cria a senha; atualiza o usuario (hasPassword pode mudar).
+  async function changePassword(currentPassword: string, newPassword: string) {
+    const res = await api.changePassword(currentPassword, newPassword);
+    setUser(res.user);
+  }
+
   function logout() {
     clearToken();
     setUser(null);
@@ -61,7 +68,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, loading, login, loginWithGoogle, register, logout }}
+      value={{
+        user,
+        loading,
+        login,
+        loginWithGoogle,
+        register,
+        changePassword,
+        logout,
+      }}
     >
       {children}
     </AuthContext.Provider>

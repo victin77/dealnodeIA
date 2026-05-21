@@ -73,9 +73,12 @@ export const api = {
     }),
   me: () => request<{ user: User }>("/auth/me"),
   changePassword: (currentPassword: string, newPassword: string) =>
-    request<{ ok: boolean }>("/auth/password", {
+    request<{ ok: boolean; user: User }>("/auth/password", {
       method: "PUT",
-      body: { currentPassword, newPassword },
+      // Sem senha atual (conta Google criando a 1a senha): envia so a nova.
+      body: currentPassword
+        ? { currentPassword, newPassword }
+        : { newPassword },
     }),
 
   // --- meetings ---

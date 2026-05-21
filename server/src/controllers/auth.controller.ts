@@ -22,7 +22,8 @@ const loginSchema = z.object({
 });
 
 const changePasswordSchema = z.object({
-  currentPassword: z.string().min(1, "Informe a senha atual."),
+  // Opcional: contas criadas via Google ainda nao tem senha para informar.
+  currentPassword: z.string().optional(),
   newPassword: z
     .string()
     .min(6, "A nova senha precisa ter ao menos 6 caracteres."),
@@ -32,8 +33,19 @@ function signToken(userId: string): string {
   return jwt.sign({ sub: userId }, env.jwtSecret, { expiresIn: "7d" });
 }
 
-function publicUser(user: { id: string; name: string; email: string }) {
-  return { id: user.id, name: user.name, email: user.email };
+function publicUser(user: {
+  id: string;
+  name: string;
+  email: string;
+  password: string | null;
+}) {
+  return {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    // Permite o frontend saber se a conta ja tem senha (login com Google nao tem).
+    hasPassword: Boolean(user.password),
+  };
 }
 
 export async function register(req: Request, res: Response) {
@@ -132,21 +144,22 @@ export async function changePassword(req: AuthRequest, res: Response) {
 
   const user = await prisma.user.findUnique({ where: { id: req.userId } });
   if (!user) throw new HttpError(404, "Usuario nao encontrado.");
-  if (!user.password) {
-    throw new HttpError(
-      400,
-      "Sua conta usa login com Google e nao tem senha para alterar."
-    );
+
+  // Conta que ja tem senha: exige a senha atual correta.
+  // Conta sem senha (criada via Google): define a primeira senha sem exigir.
+  if (user.password) {
+    if (!data.currentPassword) {
+      throw new HttpError(400, "Informe a senha atual.");
+    }
+    if (!(await bcrypt.compare(data.currentPassword, user.password))) {
+      throw new HttpError(401, "Senha atual incorreta.");
+    }
   }
 
-  if (!(await bcrypt.compare(data.currentPassword, user.password))) {
-    throw new HttpError(401, "Senha atual incorreta.");
-  }
-
-  await prisma.user.update({
+  const updated = await prisma.user.update({
     where: { id: user.id },
     data: { password: await bcrypt.hash(data.newPassword, 10) },
   });
 
-  return res.json({ ok: true });
+  return res.json({ ok: true, user: publicUser(updated) });
 }
