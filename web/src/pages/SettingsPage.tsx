@@ -2,7 +2,13 @@ import { useEffect, useState } from "react";
 import { api } from "../lib/api";
 import type { Health } from "../lib/types";
 import { useAuth } from "../context/AuthContext";
-import { Card, PageContainer, PageHeader, Button } from "../components/ui";
+import {
+  Card,
+  PageContainer,
+  PageHeader,
+  Button,
+  PasswordInput,
+} from "../components/ui";
 
 const PROVIDER_LABEL: Record<string, string> = {
   groq: "Groq — gratuito",
@@ -148,13 +154,24 @@ function ChangePasswordForm() {
       className={`grid gap-3 ${hasPassword ? "sm:grid-cols-3" : "sm:grid-cols-2"}`}
     >
       {hasPassword && (
-        <PwInput label="Senha atual" value={current} onChange={setCurrent} />
+        <PasswordInput
+          label="Senha atual"
+          value={current}
+          onChange={setCurrent}
+          autoComplete="current-password"
+        />
       )}
-      <PwInput label="Nova senha" value={next} onChange={setNext} />
-      <PwInput
+      <PasswordInput
+        label="Nova senha"
+        value={next}
+        onChange={setNext}
+        autoComplete="new-password"
+      />
+      <PasswordInput
         label="Confirmar nova senha"
         value={confirm}
         onChange={setConfirm}
+        autoComplete="new-password"
       />
 
       {msg && (
@@ -182,28 +199,3 @@ function ChangePasswordForm() {
   );
 }
 
-function PwInput({
-  label,
-  value,
-  onChange,
-}: {
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-}) {
-  return (
-    <label className="block">
-      <span className="mb-1.5 block text-sm font-medium text-neutral-700">
-        {label}
-      </span>
-      <input
-        type="password"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        required
-        placeholder="••••••••"
-        className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-3.5 py-2.5 text-sm outline-none transition focus:border-neutral-900 focus:bg-white"
-      />
-    </label>
-  );
-}

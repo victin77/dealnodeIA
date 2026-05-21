@@ -1,4 +1,5 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
+import { IconEye, IconEyeOff } from "./icons";
 
 /** Container padrão das páginas — preenche bem telas largas. */
 export function PageContainer({ children }: { children: ReactNode }) {
@@ -103,5 +104,53 @@ export function EmptyState({
       {hint && <p className="mt-1 text-sm text-neutral-400">{hint}</p>}
       {action && <div className="mt-4">{action}</div>}
     </div>
+  );
+}
+
+/** Campo de senha com botão de mostrar/ocultar (o "olhinho"). */
+export function PasswordInput({
+  label,
+  value,
+  onChange,
+  placeholder = "••••••••",
+  autoComplete,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  placeholder?: string;
+  autoComplete?: string;
+}) {
+  const [show, setShow] = useState(false);
+  return (
+    <label className="block">
+      <span className="mb-1.5 block text-sm font-medium text-neutral-700">
+        {label}
+      </span>
+      <div className="relative">
+        <input
+          type={show ? "text" : "password"}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={placeholder}
+          autoComplete={autoComplete}
+          required
+          className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-3.5 py-2.5 pr-11 text-sm text-neutral-900 outline-none transition focus:border-neutral-900 focus:bg-white"
+        />
+        <button
+          type="button"
+          onClick={() => setShow((s) => !s)}
+          aria-label={show ? "Ocultar senha" : "Mostrar senha"}
+          title={show ? "Ocultar senha" : "Mostrar senha"}
+          className="absolute inset-y-0 right-0 grid w-11 place-items-center text-neutral-400 transition hover:text-neutral-900"
+        >
+          {show ? (
+            <IconEyeOff className="h-5 w-5" />
+          ) : (
+            <IconEye className="h-5 w-5" />
+          )}
+        </button>
+      </div>
+    </label>
   );
 }

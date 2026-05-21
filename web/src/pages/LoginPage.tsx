@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { GoogleButton } from "../components/GoogleButton";
+import { PasswordInput } from "../components/ui";
 
 export function LoginPage() {
   const { login, loginWithGoogle, register } = useAuth();
@@ -112,7 +113,14 @@ export function LoginPage() {
               <Field label="Nome" type="text" value={name} onChange={setName} placeholder="Seu nome" />
             )}
             <Field label="E-mail" type="email" value={email} onChange={setEmail} placeholder="voce@empresa.com" />
-            <Field label="Senha" type="password" value={password} onChange={setPassword} placeholder="••••••••" />
+            <PasswordInput
+              label="Senha"
+              value={password}
+              onChange={setPassword}
+              autoComplete={
+                mode === "login" ? "current-password" : "new-password"
+              }
+            />
 
             {error && (
               <p className="rounded-xl bg-neutral-100 px-3 py-2 text-sm text-neutral-700">

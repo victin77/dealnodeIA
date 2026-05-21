@@ -131,3 +131,18 @@ export const IconFolder = (p: IconProps) => (
     <path d="M3 7.5q0-2 2-2h4l2.2 2.6H19q2 0 2 2v6.4q0 2-2 2H5q-2 0-2-2Z" />
   </svg>
 );
+
+export const IconEye = (p: IconProps) => (
+  <svg {...base(p)}>
+    <path d="M2.5 12Q12 4 21.5 12 12 20 2.5 12Z" />
+    <circle cx="12" cy="12" r="3" />
+  </svg>
+);
+
+export const IconEyeOff = (p: IconProps) => (
+  <svg {...base(p)}>
+    <path d="M2.5 12Q12 4 21.5 12 12 20 2.5 12Z" />
+    <circle cx="12" cy="12" r="3" />
+    <path d="M4 4 20 20" />
+  </svg>
+);
