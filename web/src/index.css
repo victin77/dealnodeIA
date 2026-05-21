@@ -72,12 +72,6 @@ body {
   }
 }
 
-/* Logo (estrela). A cor vem do background-color — recolore via classe bg-*. */
-.logo-mark {
-  -webkit-mask: url(/logo-mask.png) center / contain no-repeat;
-  mask: url(/logo-mask.png) center / contain no-repeat;
-}
-
 /* Animação da troca de tema (revelação circular via View Transitions) */
 ::view-transition-old(root),
 ::view-transition-new(root) {
