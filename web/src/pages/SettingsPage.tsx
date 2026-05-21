@@ -1,7 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { api } from "../lib/api";
 import type { Health } from "../lib/types";
 import { useAuth } from "../context/AuthContext";
+import { IconDownload } from "../components/icons";
+import {
+  canInstall,
+  isIOS,
+  isStandalone,
+  promptInstall,
+  subscribeInstall,
+} from "../lib/pwa";
 import {
   Card,
   PageContainer,
@@ -76,6 +84,9 @@ export function SettingsPage() {
           </p>
         </Card>
 
+        {/* Instalar o app (PWA) */}
+        <InstallCard />
+
         {/* Senha */}
         <Card className="p-6 lg:col-span-2">
           <h2 className="mb-1 font-bold text-neutral-900">
@@ -99,6 +110,78 @@ function ProviderRow({ label, value }: { label: string; value: string }) {
       <span className="text-sm text-neutral-500">{label}</span>
       <span className="text-sm font-semibold text-neutral-900">{value}</span>
     </div>
+  );
+}
+
+/** Cartão "Instalar o app" — botão nativo no Android/Chrome, instruções no iOS. */
+function InstallCard() {
+  const installable = useSyncExternalStore(subscribeInstall, canInstall);
+  const standalone = isStandalone();
+
+  return (
+    <Card className="p-6 lg:col-span-2">
+      <div className="flex items-start gap-4">
+        <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-neutral-900 text-white">
+          <IconDownload className="h-6 w-6" />
+        </div>
+        <div className="min-w-0 flex-1">
+          <h2 className="font-bold text-neutral-900">Instalar o app</h2>
+
+          {standalone ? (
+            <p className="mt-1 text-sm text-neutral-500">
+              O DealNote já está instalado neste aparelho. ✓
+            </p>
+          ) : (
+            <>
+              <p className="mt-1 text-sm leading-relaxed text-neutral-500">
+                Instale o DealNote na tela inicial do celular para abrir em
+                tela cheia, como um aplicativo — sem a barra do navegador.
+              </p>
+
+              {installable ? (
+                <div className="mt-4">
+                  <Button onClick={() => promptInstall()}>
+                    Instalar o app
+                  </Button>
+                </div>
+              ) : (
+                <p className="mt-3 rounded-xl bg-neutral-100 px-3.5 py-3 text-sm leading-relaxed text-neutral-600">
+                  {isIOS() ? (
+                    <>
+                      No iPhone/iPad: toque em{" "}
+                      <span className="font-semibold text-neutral-900">
+                        Compartilhar
+                      </span>{" "}
+                      na barra do Safari e depois em{" "}
+                      <span className="font-semibold text-neutral-900">
+                        Adicionar à Tela de Início
+                      </span>
+                      .
+                    </>
+                  ) : (
+                    <>
+                      No celular, abra o menu do navegador{" "}
+                      <span className="font-semibold text-neutral-900">
+                        (⋮)
+                      </span>{" "}
+                      e escolha{" "}
+                      <span className="font-semibold text-neutral-900">
+                        Instalar app
+                      </span>{" "}
+                      ou{" "}
+                      <span className="font-semibold text-neutral-900">
+                        Adicionar à tela inicial
+                      </span>
+                      .
+                    </>
+                  )}
+                </p>
+              )}
+            </>
+          )}
+        </div>
+      </div>
+    </Card>
   );
 }
 
