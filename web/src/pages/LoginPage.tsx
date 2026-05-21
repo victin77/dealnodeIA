@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { GoogleButton } from "../components/GoogleButton";
 
 export function LoginPage() {
-  const { login, register } = useAuth();
+  const { login, loginWithGoogle, register } = useAuth();
   const navigate = useNavigate();
 
   const [mode, setMode] = useState<"login" | "register">("login");
@@ -24,6 +25,20 @@ export function LoginPage() {
     } catch (err) {
       setError(err instanceof Error ? err.message : "Falha na autenticação.");
     } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleGoogle(credential: string) {
+    setError(null);
+    setLoading(true);
+    try {
+      await loginWithGoogle(credential);
+      navigate("/");
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Falha no login com Google."
+      );
       setLoading(false);
     }
   }
@@ -82,7 +97,17 @@ export function LoginPage() {
               : "Comece a analisar suas calls comerciais."}
           </p>
 
-          <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+          <div className="mt-6">
+            <GoogleButton onCredential={handleGoogle} onError={setError} />
+          </div>
+
+          <div className="my-5 flex items-center gap-3">
+            <div className="h-px flex-1 bg-neutral-200" />
+            <span className="text-xs text-neutral-400">ou</span>
+            <div className="h-px flex-1 bg-neutral-200" />
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
             {mode === "register" && (
               <Field label="Nome" type="text" value={name} onChange={setName} placeholder="Seu nome" />
             )}

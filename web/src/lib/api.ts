@@ -66,6 +66,11 @@ export const api = {
       method: "POST",
       body: { email, password },
     }),
+  googleLogin: (credential: string) =>
+    request<{ token: string; user: User }>("/auth/google", {
+      method: "POST",
+      body: { credential },
+    }),
   me: () => request<{ user: User }>("/auth/me"),
   changePassword: (currentPassword: string, newPassword: string) =>
     request<{ ok: boolean }>("/auth/password", {

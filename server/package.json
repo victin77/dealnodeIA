@@ -5,6 +5,7 @@
   "description": "Backend do DealNote AI - copiloto de fechamento de vendas",
   "main": "dist/index.js",
   "scripts": {
+    "predev": "node prisma/use-local-schema.mjs && prisma generate --schema=prisma/schema.local.prisma && prisma db push --schema=prisma/schema.local.prisma --skip-generate",
     "dev": "tsx watch src/index.ts",
     "build": "prisma generate && tsc",
     "start": "node dist/index.js",
@@ -12,6 +13,7 @@
     "prisma:generate": "prisma generate",
     "prisma:push": "prisma db push",
     "prisma:studio": "prisma studio",
+    "db:studio": "node prisma/use-local-schema.mjs && prisma studio --schema=prisma/schema.local.prisma",
     "seed": "tsx src/seed.ts"
   },
   "dependencies": {
@@ -20,6 +22,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "google-auth-library": "^10.6.2",
     "jsonwebtoken": "^9.0.2",
     "multer": "^2.1.1",
     "openai": "^4.79.1",

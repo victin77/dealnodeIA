@@ -3,5 +3,8 @@ dist/
 .env
 *.db
 *.db-journal
+
+# schema gerado para dev local (SQLite) - o real e o schema.prisma
+prisma/schema.local.prisma
 uploads/*
 !uploads/.gitkeep
