@@ -2,7 +2,8 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 import { api } from "../lib/api";
 import type { Health } from "../lib/types";
 import { useAuth } from "../context/AuthContext";
-import { IconDownload } from "../components/icons";
+import { useNavMode } from "../context/NavModeContext";
+import { IconDownload, IconMenu, IconTabs } from "../components/icons";
 import {
   canInstall,
   isIOS,
@@ -84,6 +85,9 @@ export function SettingsPage() {
           </p>
         </Card>
 
+        {/* Navegação no celular */}
+        <MobileNavCard />
+
         {/* Instalar o app (PWA) */}
         <InstallCard />
 
@@ -110,6 +114,72 @@ function ProviderRow({ label, value }: { label: string; value: string }) {
       <span className="text-sm text-neutral-500">{label}</span>
       <span className="text-sm font-semibold text-neutral-900">{value}</span>
     </div>
+  );
+}
+
+/** Cartão para escolher o estilo de navegação no celular. */
+function MobileNavCard() {
+  const { navMode, setNavMode } = useNavMode();
+  return (
+    <Card className="p-6">
+      <h2 className="mb-1 font-bold text-neutral-900">Navegação no celular</h2>
+      <p className="mb-4 text-sm text-neutral-500">
+        Escolha como navegar entre as telas quando abrir no celular.
+      </p>
+      <div className="grid grid-cols-2 gap-3">
+        <NavModeOption
+          active={navMode === "tabs"}
+          onClick={() => setNavMode("tabs")}
+          icon={<IconTabs className="h-5 w-5" />}
+          title="Abas embaixo"
+          desc="Barra fixa na parte inferior"
+        />
+        <NavModeOption
+          active={navMode === "drawer"}
+          onClick={() => setNavMode("drawer")}
+          icon={<IconMenu className="h-5 w-5" />}
+          title="Menu lateral"
+          desc="Botão de menu no topo"
+        />
+      </div>
+    </Card>
+  );
+}
+
+function NavModeOption({
+  active,
+  onClick,
+  icon,
+  title,
+  desc,
+}: {
+  active: boolean;
+  onClick: () => void;
+  icon: React.ReactNode;
+  title: string;
+  desc: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      className={`flex flex-col gap-1 rounded-2xl border p-4 text-left transition ${
+        active
+          ? "border-neutral-900 bg-neutral-900 text-white"
+          : "border-neutral-200 text-neutral-700 hover:border-neutral-400"
+      }`}
+    >
+      {icon}
+      <span className="mt-1 text-sm font-semibold">{title}</span>
+      <span
+        className={`text-xs leading-snug ${
+          active ? "text-neutral-300" : "text-neutral-400"
+        }`}
+      >
+        {desc}
+      </span>
+    </button>
   );
 }
 

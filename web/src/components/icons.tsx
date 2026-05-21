@@ -153,3 +153,22 @@ export const IconDownload = (p: IconProps) => (
     <path d="M5 19h14" />
   </svg>
 );
+
+export const IconMenu = (p: IconProps) => (
+  <svg {...base(p)}>
+    <path d="M4 7h16M4 12h16M4 17h16" />
+  </svg>
+);
+
+export const IconClose = (p: IconProps) => (
+  <svg {...base(p)}>
+    <path d="M6 6 18 18M18 6 6 18" />
+  </svg>
+);
+
+export const IconTabs = (p: IconProps) => (
+  <svg {...base(p)}>
+    <rect x="3.5" y="3" width="17" height="18" rx="3" />
+    <path d="M3.5 16h17" />
+  </svg>
+);
